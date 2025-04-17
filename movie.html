@@ -1,0 +1,38 @@
+# templates/movie.html
+<!doctype html>
+<html>
+<head><title>{{ movie.title }}</title></head>
+<body>
+  <h1>{{ movie.title }}</h1>
+  <h3>Select Time:</h3>
+  <ul>
+    {% for time in movie.times %}
+      <li>
+        <h4>{{ time }}</h4>
+        <table>
+          {% for r, row in enumerate(movie.seats[time]) %}
+            <tr>
+              {% for c, seat in enumerate(row) %}
+                <td>
+                  {% if seat == 'O' %}
+                    <form method="post" action="{{ url_for('book') }}">
+                      <input type="hidden" name="movie_id" value="{{ movie_id }}">
+                      <input type="hidden" name="time" value="{{ time }}">
+                      <input type="hidden" name="row" value="{{ r }}">
+                      <input type="hidden" name="col" value="{{ c }}">
+                      <button type="submit">O</button>
+                    </form>
+                  {% else %}
+                    X
+                  {% endif %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </table>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="/">Back</a>
+</body>
+</html>
